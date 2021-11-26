@@ -5,3 +5,6 @@ admin/debug.log
 laravel/.DS_Store
 laravel/resources/autoCode/
 laravel/.env
+admin/package-lock.json
+laravel/composer.lock
+*.bak
