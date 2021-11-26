@@ -10,6 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class UserService
 {
     use ResultHelper;
+
+    /**
+     * 全局用户对象
+     *
+     * @var App\Models\System\UserModel
+     */
     protected $userModel;
 
     public function __construct(UserModel $userModel)
