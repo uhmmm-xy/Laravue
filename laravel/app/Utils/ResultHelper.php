@@ -25,20 +25,20 @@ trait ResultHelper
      * 返回表格数据组合
      * @param int $code
      * @param string $msg
-     * @param array $data
+     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $data
      * @return array
      */
-    public function tableData(int $code, string $msg, $data = [])
+    public function tableData(int $code, string $msg, $data)
     {
         return [
             'success' => true,
             'code' => $code,
             'msg' => $msg,
             'data' => [
-                'list' => $data['data'],
-                'page' => (int)$data['current_page'],
-                'pageSize' => (int)$data['per_page'],
-                'total' => (int)$data['total'],
+                'list' => $data->items(),
+                'page' => $data->currentPage(),
+                'pageSize' => $data->perPage(),
+                'total' => $data->total(),
             ],
         ];
     }

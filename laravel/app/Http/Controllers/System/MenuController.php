@@ -8,6 +8,11 @@ use App\Services\System\MenuService;
 
 class MenuController extends Controller
 {
+    /**
+     * 全局菜单对象
+     *
+     * @var \App\Services\System\MenuService
+     */
     protected $menuServer;
 
     public function __construct(MenuService $menuServer)

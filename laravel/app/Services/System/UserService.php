@@ -14,7 +14,7 @@ class UserService
     /**
      * 全局用户对象
      *
-     * @var App\Models\System\UserModel
+     * @var \App\Models\System\UserModel
      */
     protected $userModel;
 
@@ -76,7 +76,7 @@ class UserService
     public function userList($pageInfo)
     {
         try {
-            $result = $this->userModel->with('authority')->paginate($pageInfo['pageSize'])->toArray();
+            $result = $this->userModel->with('authority')->paginate($pageInfo['pageSize']);
             $result = $this->tableData(Response::HTTP_OK, '获取成功', $result);
         } catch (\Exception $ex) {
             $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());

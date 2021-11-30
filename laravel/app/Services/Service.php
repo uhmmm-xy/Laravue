@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 class Service
 {
     use ResultHelper;
+    /**
+     * 数据模型对象
+     *
+     * @var \Illuminate\Database\Eloquent\Model
+     */
     protected $model;
 
     /**

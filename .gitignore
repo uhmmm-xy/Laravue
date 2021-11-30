@@ -9,3 +9,4 @@ admin/package-lock.json
 laravel/composer.lock
 *.bak
 laravel/_ide_helper.php
+/.vscode
