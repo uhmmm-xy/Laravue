@@ -50,13 +50,13 @@ class AutoCodeController extends Controller
     }
 
     /**
-     * 获取所有Colume
+     * 获取所有Column
      * @return Response
      */
-    public function getColume(AutoCodeRequest $request)
+    public function getColumn(AutoCodeRequest $request)
     {
         $data = $request->all();
-        $result = $this->server->getColume($data);
+        $result = $this->server->getColumn($data);
         return response()->json($result);
     }
 }

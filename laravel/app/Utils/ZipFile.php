@@ -66,7 +66,7 @@ class ZipFile
      * @param string $dirname 文件夹路径
      * @return bool
      */
-    function deldir($path)
+    function delDir($path)
     {
         // 如果是目录则继续
         if (is_dir($path)) {
@@ -78,7 +78,7 @@ class ZipFile
                     // 如果是目录则递归子目录，继续操作
                     if (is_dir($path . $val)) {
                         // 子目录中操作删除文件夹和文件
-                        $this->deldir($path . $val . '/');
+                        $this->delDir($path . $val . '/');
                         // 目录清空后删除空文件夹
                         @rmdir($path . $val . '/');
                     } else {

@@ -33,7 +33,7 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
     /** 用户管理 */
     Route::group(['prefix' => 'user'], function () {
         Route::post('register', 'UserController@register');
-        Route::post('login', 'UserController@login');
+        Route::post('login', 'UserController@login')->name('adminLogin');
         Route::group(['middleware' => ['auth.jwt']], function () {
             Route::put('setAuthority/{uuid}', 'UserController@setAuthority');
             Route::post('list', 'UserController@userList');
@@ -87,7 +87,7 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
     Route::group(['prefix' => 'autoCode', 'middleware' => ['auth.jwt']], function () {
         Route::get('/getDB', 'AutoCodeController@getDB');
         Route::get('/getTables', 'AutoCodeController@getTables');
-        Route::get('/getColume', 'AutoCodeController@getColume');
+        Route::get('/getColumn', 'AutoCodeController@getColumn');
         Route::post('/', 'AutoCodeController@autoCode');
     });
     /** 文件管理 */
@@ -124,5 +124,14 @@ Route::namespace('App\Http\Controllers\Business')->group(function () {
         Route::post('/', 'BusArticleController@create');
         Route::put('/{id}', 'BusArticleController@update');
         Route::delete('/{id}', 'BusArticleController@destroy');
+    });
+
+    
+});
+
+Route::namespace('App\Http\Controllers\Game')->group(function(){
+    Route::group(['prefix' => 'game', 'middleware' => ['auth.jwt']],function(){
+        Route::post('/mail/send', 'MailController@sendMail');
+        Route::get('/server/list', 'ServerController@getZoneList')->name('serverList');
     });
 });

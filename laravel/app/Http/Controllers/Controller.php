@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Services\ApiResponse;
 
 class Controller extends BaseController
 {
+    use ApiResponse;
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
@@ -97,5 +100,16 @@ class Controller extends BaseController
         $data = $request->all();
         $result = $this->server->update($id, $data);
         return response()->json($result);
+    }
+
+
+    /**
+     * 返回JSON对象
+     *
+     * @param array $response
+     * @return JSON
+     */
+    protected function responseJson(array $response){
+        return response()->json($response);
     }
 }

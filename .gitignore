@@ -10,3 +10,4 @@ laravel/composer.lock
 *.bak
 laravel/_ide_helper.php
 /.vscode
+laravel/_custom.php

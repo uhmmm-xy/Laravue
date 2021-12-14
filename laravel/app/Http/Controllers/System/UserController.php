@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    use ResultHelper;
+    // use ResultHelper;
     protected $userServer;
 
     public function __construct(UserService $userServer)
@@ -30,6 +30,7 @@ class UserController extends Controller
         $data = $request->all();
         $data['uuid'] = Uuid::uuid1();
         $result = $this->userServer->register($data);
+        // return $this->success($result);
         return response()->json($result);
     }
 
@@ -42,6 +43,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         $result = $this->userServer->login($data);
+        // return $this->success($result);
         return response()->json($result);
     }
 
@@ -51,8 +53,9 @@ class UserController extends Controller
     public function loginOut()
     {
         Auth::logout();
-        $result = $this->success(Response::HTTP_OK, "登出成功");
-        return response()->json($result);
+        // $result = $this->success(Response::HTTP_OK, "登出成功");
+        return $this->success("登出成功");
+        // return response()->json($result);
     }
 
     /**
@@ -64,6 +67,7 @@ class UserController extends Controller
     {
         $pageInfo = $request->all();
         $result = $this->userServer->userList($pageInfo);
+        // return $this->success($result);
         return response()->json($result);
     }
 
@@ -74,6 +78,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         $result = $this->userServer->setAuthority($uuid, $data);
+        // return $this->success($result);
         return response()->json($result);
     }
 
@@ -85,6 +90,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $result = $this->userServer->destroy($id);
+        // return $this->success($result);
         return response()->json($result);
     }
 }

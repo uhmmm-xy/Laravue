@@ -9,12 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 class Service
 {
     use ResultHelper;
-    /**
-     * 数据模型对象
-     *
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $model;
+
+    public function __construct()
+    {
+        loadLibrary('common');
+    }
 
     /**
      * 模糊查询Key
@@ -58,11 +57,11 @@ class Service
                 $like = $searchInfo[$this->likeSearch];
                 unset($searchInfo[$this->likeSearch]);
                 $result = $this->model->where($searchInfo)->where($this->likeSearch, "like", "%" . $like . "%")
-                    ->orderBy('id')->paginate($pageInfo['pageSize'])->toArray();
+                    ->orderBy('id')->paginate($pageInfo['pageSize']);
             } else if ($this->sort) {
-                $result = $this->model->where($searchInfo)->orderBy(($this->sort)[0], ($this->sort)[1])->paginate($pageInfo['pageSize'])->toArray();
+                $result = $this->model->where($searchInfo)->orderBy(($this->sort)[0], ($this->sort)[1])->paginate($pageInfo['pageSize']);
             } else {
-                $result = $this->model->where($searchInfo)->orderBy('id')->paginate($pageInfo['pageSize'])->toArray();
+                $result = $this->model->where($searchInfo)->orderBy('id')->paginate($pageInfo['pageSize']);
             }
             $result = $this->tableData(Response::HTTP_OK, '获取分页数据成功！', $result);
         } catch (\Exception $ex) {

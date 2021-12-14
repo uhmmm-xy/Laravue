@@ -36,6 +36,10 @@ export default {
             this.total = table.data.total
             this.page = table.data.page
             this.pageSize = table.data.pageSize
+        },
+        async getAllTableData(){
+            const table = await this.listApi()
+            this.tableData = table.data
         }
     }
 }

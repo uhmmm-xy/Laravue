@@ -3,12 +3,12 @@
     <div>
       <span>Powered by</span>
       <span>
-      <a href="https://github.com/jianyuezhexue/Laravue">WangJie</a>
+      <a href="#">Game</a>
       </span>
       <el-divider direction="vertical"></el-divider>
       <span>Copyright</span>
       <span>
-      <a href="https://github.com/jianyuezhexue/Laravue">WangJie</a>
+      <a href="#">Xy</a>
       </span>
     </div>
   </div>

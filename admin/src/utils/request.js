@@ -5,24 +5,24 @@ const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
     timeout: 99999
 })
-let acitveAxios = 0
+let activeAxios = 0
 let loadingInstance
 let timer
 const showLoading = () => {
-    acitveAxios++
+    activeAxios++
     if (timer) {
         clearTimeout(timer)
     }
     timer = setTimeout(() => {
-        if (acitveAxios > 0) {
+        if (activeAxios > 0) {
             loadingInstance = Loading.service({ fullscreen: true })
         }
     }, 400);
 }
 
 const closeLoading = () => {
-    acitveAxios--
-    if (acitveAxios <= 0) {
+    activeAxios--
+    if (activeAxios <= 0) {
         clearTimeout(timer)
         loadingInstance && loadingInstance.close()
     }

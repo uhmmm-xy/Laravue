@@ -92,15 +92,15 @@ class AutoCodeService extends Service
         if (!is_dir($zipPath)) { // 考虑刚拉代码没有此文件夹的情况
             mkdir($zipPath);
         }
-        $zipFile->deldir($zipPath);
+        $zipFile->delDir($zipPath);
         mkdir($preTmpPath);
 
         /** 业务代码 */
         // 3.文件生成处理
         foreach ($autoCodeConfig as $value) {
             // 获取模板文件内容
-            $tmpCtrollerPath = $tmpPath . $value['type'] . ".tpl";
-            $tmpContent = file_get_contents($tmpCtrollerPath);
+            $tmpControllerPath = $tmpPath . $value['type'] . ".tpl";
+            $tmpContent = file_get_contents($tmpControllerPath);
 
             // 替换文件内容
             $newContent = str_replace("{{nameSpace}}", $data['nameSpace'], $tmpContent);         # 替换命名空间
@@ -191,32 +191,32 @@ class AutoCodeService extends Service
     /**
      * VUE文件内容循环处理
      * @param string $newContent
-     * @param array $fileds
+     * @param array $fields
      * @param array $data
      * @return string $newContent
      */
-    private function indexVueContent(string $newContent, array $fileds, array $data)
+    private function indexVueContent(string $newContent, array $fields, array $data)
     {
         /** 1.替换搜索表单 */
         $searchTmp = "<el-form-item><el-input v-model=\"searchInfo.{{fieldName}}\" placeholder=\"{{fieldDesc}}\" clearable :style=\"{ width: '100%' }\" ></el-input></el-form-item>" . PHP_EOL;
-        $searchRepalce = "";
+        $searchReplace = "";
 
         /** 2.替换表单字段 */
         $tableTmp = "<el-table-column label=\"{{fieldDesc}}\" prop=\"{{fieldName}}\" width=\"120\"></el-table-column>" . PHP_EOL;
-        $tableRepalce = "";
+        $tableReplace = "";
 
         /** 3.替换弹窗表单 */
         $formTmp = "<el-form-item label=\"{{fieldDesc}}\" prop=\"title\"><el-input v-model=\"formData.{{fieldName}}\" placeholder=\"请输入{{fieldDesc}}\" clearable :style=\"{ width: '100%' }\" ></el-input></el-form-item>" . PHP_EOL;
-        $formRepalce = "";
+        $formReplace = "";
 
         /** 4.替换formData*/
         $formData = "";
 
         /** 5.替换校验规则(必填)*/
         $ruleTmp = "{{fieldName}}: [{ required: true, message: \"请输入{{fieldDesc}}\", trigger: \"blur\",}]," . PHP_EOL;
-        $ruleRepalce = "";
+        $ruleReplace = "";
 
-        foreach ($fileds as $filed) {
+        foreach ($fields as $filed) {
             // 搜索表单生成
             if ($filed['fieldSearchType']) {
                 $searchOne = str_replace("{{fieldName}}", $filed['columnName'], $searchTmp);
@@ -224,17 +224,17 @@ class AutoCodeService extends Service
             } else {
                 $searchOne = "";
             }
-            $searchRepalce .= $searchOne;
+            $searchReplace .= $searchOne;
 
             // 数据表格生成
             $tableOne = str_replace("{{fieldName}}", $filed['columnName'], $tableTmp);
             $tableOne = str_replace("{{fieldDesc}}", $filed['fieldDesc'], $tableOne);
-            $tableRepalce .= $tableOne;
+            $tableReplace .= $tableOne;
 
             // 弹窗表单生成
             $formOne = str_replace("{{fieldName}}", $filed['columnName'], $formTmp);
             $formOne = str_replace("{{fieldDesc}}", $filed['fieldDesc'], $formOne);
-            $formRepalce .= $formOne;
+            $formReplace .= $formOne;
 
             // 生成formData
             $formData .= $filed['fieldName'] . ":null,";
@@ -242,15 +242,15 @@ class AutoCodeService extends Service
             // 生成表单验证规则
             $ruleOne = str_replace("{{fieldName}}", $filed['columnName'], $ruleTmp);
             $ruleOne = str_replace("{{fieldDesc}}", $filed['fieldDesc'], $ruleOne);
-            $ruleRepalce .= $ruleOne;
+            $ruleReplace .= $ruleOne;
         }
 
         // 集中替换
-        $newContent = str_replace("{{search}}", $searchRepalce, $newContent);
-        $newContent = str_replace("{{table}}", $tableRepalce, $newContent);
-        $newContent = str_replace("{{form}}", $formRepalce, $newContent);
+        $newContent = str_replace("{{search}}", $searchReplace, $newContent);
+        $newContent = str_replace("{{table}}", $tableReplace, $newContent);
+        $newContent = str_replace("{{form}}", $formReplace, $newContent);
         $newContent = str_replace("{{formData}}", "{" . $formData . "}", $newContent);
-        $newContent = str_replace("{{rules}}", "{" . $ruleRepalce . "}", $newContent);
+        $newContent = str_replace("{{rules}}", "{" . $ruleReplace . "}", $newContent);
 
         /** 6.替换API请求引入 */
         $newContent = str_replace("{{apiName}}", $data['apiName'], $newContent);
@@ -319,23 +319,23 @@ class AutoCodeService extends Service
      * @param array $data[dbName,tableName]
      * @return ResultHelper
      */
-    public function getColume(array $data)
+    public function getColumn(array $data)
     {
         $dbName = $data['dbName'];
         $tableName = $data['tableName'];
         try {
             $query = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='$dbName' AND TABLE_NAME = '$tableName' ";
-            $columes = DB::select($query);
+            $columns = DB::select($query);
             $result = [];
-            foreach ($columes as $value) {
+            foreach ($columns as $value) {
                 $result[] = [
-                    'columeComment' => $value->COLUMN_COMMENT,
-                    'columeName' => $value->COLUMN_NAME,
+                    'columnComment' => $value->COLUMN_COMMENT,
+                    'columnName' => $value->COLUMN_NAME,
                     'dataType' => $value->DATA_TYPE,
                     'dataTypeLong' => $value->CHARACTER_MAXIMUM_LENGTH,
                 ];
             }
-            $result = $this->success(Response::HTTP_OK, '获取所有列数据成功！', ['columes' => $result]);
+            $result = $this->success(Response::HTTP_OK, '获取所有列数据成功！', ['columns' => $result]);
         } catch (\Exception $ex) {
             $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
         }
