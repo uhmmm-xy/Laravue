@@ -125,13 +125,12 @@ Route::namespace('App\Http\Controllers\Business')->group(function () {
         Route::put('/{id}', 'BusArticleController@update');
         Route::delete('/{id}', 'BusArticleController@destroy');
     });
-
-    
 });
 
-Route::namespace('App\Http\Controllers\Game')->group(function(){
-    Route::group(['prefix' => 'game', 'middleware' => ['auth.jwt']],function(){
-        Route::post('/mail/send', 'MailController@sendMail');
+Route::namespace('App\Http\Controllers\Game')->group(function () {
+    Route::group(['prefix' => 'game', 'middleware' => ['auth.jwt']], function () {
+        Route::post('/mail/send', 'MailController@sendMail')->name('sendMail');
         Route::get('/server/list', 'ServerController@getZoneList')->name('serverList');
+        Route::get('/map/list', 'MapController@getMapList')->name('mapList');
     });
 });

@@ -8,18 +8,19 @@
         tooltip-effect="dark"
     >
         <el-table-column
-            label="开服日期"
-            prop="open_time"
+            label="创建时间"
+            prop="created"
             width="180"
+            :formatter="formatDate"
         ></el-table-column>
-        <el-table-column label="服务器名" prop="name"></el-table-column>
-        <el-table-column label="地址" prop="addr" width="120"></el-table-column>
-        <el-table-column label="端口" prop="port"></el-table-column>
-        <el-table-column label="状态">
-            <template slot-scope="scope">
-                <el-tag :type="tagType[scope.row.status]" size="medium">{{ scope.row.status_text }}</el-tag>
-            </template>
-        </el-table-column>
+        <el-table-column label="地图名" prop="name"></el-table-column>
+        <el-table-column
+            label="节点名"
+            prop="nodename"
+            width="120"
+        ></el-table-column>
+        <el-table-column label="备注" prop="mark"></el-table-column>
+        <el-table-column label="模式" prop="mode_text"></el-table-column>
         <!-- <el-table-column label="按钮组">
             <template slot-scope="scope">
                 <el-button icon="el-icon-zoom-in" size="mini">详情</el-button>
@@ -56,23 +57,23 @@
     </el-table>
 </template>
 <script>
-import { getZoneList } from "@/api/game";
+import { getMapList } from "@/api/game";
 import infoList from "@/components/mixins/infoList";
+import {formatTimeToStr} from "@/utils/data";
 export default {
     name: "Server",
     mixins: [infoList],
     data() {
         return {
-            listApi: getZoneList,
-            tagType: [
-                'info',
-                'success',
-                'warning',
-                'danger',
-            ],
+            listApi: getMapList,
+            tagType: ["info", "success", "warning", "danger"],
         };
     },
-    methods: {},
+    methods: {
+        formatDate:(row)=>{
+            return formatTimeToStr(row.created*1000);
+        }
+    },
     async created() {
         await this.getAllTableData();
     },

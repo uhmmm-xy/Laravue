@@ -41,6 +41,6 @@ class ServerService extends Service
             ];
             ServerModel::updateOrCreate($list[$k]);
         }
-        return $this->success(Response::HTTP_OK,'请求成功',ServerModel::where([])->orderBy('index','asc')->get());
+        return $this->success(Response::HTTP_OK,'请求成功',$this->model->orderBy('index','asc')->get());
     }
 }

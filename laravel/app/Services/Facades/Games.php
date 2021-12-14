@@ -4,7 +4,8 @@ namespace Services\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see Services\Classes\Games
+ * @see \Services\Classes\Games
+ * @method static array getLunhuiMap()
  */
 class Games extends Facade
 {

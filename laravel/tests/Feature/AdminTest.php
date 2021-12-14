@@ -51,4 +51,12 @@ class AdminTest extends TestCase
         ]);
         $response->dump();
     }
+
+    public function testMapList(){
+        $response = $this->authRequest('GET', route('mapList'), []);
+        $response->assertJson([
+            'code' => 200
+        ]);
+        $response->dump();
+    }
 }

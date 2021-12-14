@@ -12,10 +12,16 @@ export const getMailList = () => {
     return [];
 }
 
-export const getZoneList = (data) => {
+export const getZoneList = () => {
     return service({
         url    : "game/server/list",
-        method : 'get',
-        data   : data
+        method : 'get'
+    })
+}
+
+export const getMapList = () => {
+    return service({
+        url    : "game/map/list",
+        method : 'get'
     })
 }
