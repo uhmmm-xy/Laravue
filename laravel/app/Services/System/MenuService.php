@@ -47,9 +47,13 @@ class MenuService
     {
         try {
             $user = auth()->user();
-            $AuthorInfo = $this->authorityModel->where('authority_id', $user['authority_id'])->first(['menu_ids']);
-            $ids = $AuthorInfo->menu_ids;
-            $result = $this->menuModel->whereIn('id', $ids)->orderBy('sort')->get()->toArray();
+            if ($user->authority_id == '666') {
+                $result = $this->menuModel->orderBy('sort')->get()->toArray();
+            } else {
+                $AuthorInfo = $this->authorityModel->where('authority_id', $user['authority_id'])->first(['menu_ids']);
+                $ids = $AuthorInfo->menu_ids;
+                $result = $this->menuModel->whereIn('id', $ids)->orderBy('sort')->get()->toArray();
+            }
             $result = Tree::makeTree($result);
             $result = $this->success(Response::HTTP_OK, '获取全部数据成功！', ["menus" => $result]);
         } catch (\Exception $ex) {

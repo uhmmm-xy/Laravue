@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Game\NoticeModel;
 use Illuminate\Support\ServiceProvider;
+use Services\Observers\Games\NoticeObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        NoticeModel::observe(NoticeObserver::class);
     }
 }

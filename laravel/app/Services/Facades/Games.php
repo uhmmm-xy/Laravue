@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Services\Classes\Games
- * @method static array getLunhuiMap()
+ * @method static array getLunhuiMap() 获取所有地图
+ * @method static array getAllNode() 获取所有节点
  */
 class Games extends Facade
 {

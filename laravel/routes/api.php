@@ -129,8 +129,22 @@ Route::namespace('App\Http\Controllers\Business')->group(function () {
 
 Route::namespace('App\Http\Controllers\Game')->group(function () {
     Route::group(['prefix' => 'game', 'middleware' => ['auth.jwt']], function () {
-        Route::post('/mail/send', 'MailController@sendMail')->name('sendMail');
-        Route::get('/server/list', 'ServerController@getZoneList')->name('serverList');
-        Route::get('/map/list', 'MapController@getMapList')->name('mapList');
+        Route::post('/mail/send', 'MailController@sendMail')->name('Game_sendMail');
+        Route::get('/server/list', 'ServerController@getZoneList')->name('Game_serverList');
+        Route::get('/map/list', 'MapController@getMapList')->name('Game_mapList');
+        Route::get('/node/list', 'NodeController@getNodeList')->name('Game_nodeList');
+
+        Route::group(['prefix' => 'notice'], function () {
+            Route::get('/', 'NoticeController@all')->name('Game_noticeAll');
+            Route::get('/find/{id}', 'NoticeController@find')->name('Game_noticeFind');
+            Route::get('/list', 'NoticeController@list')->name('Game_noticeList');
+            Route::post('/', 'NoticeController@create')->name('Game_noticeCreate');
+            Route::put('/{id}', 'NoticeController@update')->name('Game_noticeUpdate');
+            Route::delete('/{id}', 'NoticeController@destroy')->name('Game_noticeDestroy');
+        });
+
+        Route::get('/tool/getUser','ToolController@getUser')->name('Game_getUser');
     });
+
+    
 });

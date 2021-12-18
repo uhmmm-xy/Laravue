@@ -45,15 +45,60 @@ class AdminTest extends TestCase
 
     public function testGetServerList()
     {
-        $response = $this->authRequest('GET', route('serverList'), []);
+        $response = $this->authRequest('GET', route('Game_serverList'), []);
         $response->assertJson([
             'code' => 200
         ]);
         $response->dump();
     }
 
-    public function testMapList(){
-        $response = $this->authRequest('GET', route('mapList'), []);
+    public function testMapList()
+    {
+        $response = $this->authRequest('GET', route('Game_mapList'), []);
+        $response->assertJson([
+            'code' => 200
+        ]);
+        $response->dump();
+    }
+
+    public function testNodeList()
+    {
+        $response = $this->authRequest('GET', route('Game_nodeList'), []);
+        $response->assertJson([
+            'code' => 200
+        ]);
+        $response->dump();
+    }
+
+
+    public function testNoticeList()
+    {
+        $response = $this->authRequest('GET', route('Game_noticeAll'), []);
+        $response->assertJson([
+            'code' => 200
+        ]);
+        $response->dump();
+    }
+
+    public function testCreatedNotice()
+    {
+        $data = [
+            "content" => "<h1>test1</h1><h2><span style=\"color: rgb(230, 0, 0);\">fffff我是个帅哥</span></h2>",
+            "desc" => "test1"
+        ];
+        $response = $this->authRequest('POST', route('Game_noticeCreate'), $data);
+        $response->assertJson([
+            'code' => 200
+        ]);
+        $response->dump();
+    }
+
+    public function testGetUser(){
+        $data = [
+            'userId' => '1001720001',
+            'nickname' => '纪连虎'
+        ];
+        $response = $this->authRequest('get', route('Game_getUser'), $data);
         $response->assertJson([
             'code' => 200
         ]);

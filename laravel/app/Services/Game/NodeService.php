@@ -2,35 +2,35 @@
 namespace App\Services\Game;
 
 use App\Services\Service;
-use App\Models\Game\MapModel;
+use App\Models\Game\NodeModel;
 use Illuminate\Support\Facades\DB;
 use Services\Facades\Games;
 use Illuminate\Http\Response;
 use Services\Classes\CosClient;
 
-class MapService extends Service
+class NodeService extends Service
 {
 
 
     protected $model;
 
-    public function __construct(MapModel $model)
+    public function __construct(NodeModel $model)
     {
         parent::__construct();
         $this->model = $model;
     }
 
     /**
-     * 获取全部地图
+     * 获取全部节点
      *
      * @return array
      */
-    public function getMapList(){
+    public function getNodeList(){
         
-        $list = Games::getLunhuiMap();
+        $list = Games::getAllNode();
         foreach($list as $val){
-            MapModel::updateOrCreate($val);
+            NodeModel::updateOrCreate($val);
         }
-        return $this->success(Response::HTTP_OK,'请求成功',$this->model->orderBy('map_id','asc')->get());
+        return $this->success(Response::HTTP_OK,'请求成功',$this->model->orderBy('id','asc')->get());
     }
 }

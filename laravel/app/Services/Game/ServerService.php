@@ -25,13 +25,13 @@ class ServerService extends Service
      *
      * @return array
      */
-    public function getZoneList(){
+    public function getZoneList()
+    {
         $jsonUrl = Games::getServerListURL();
         $content = file_get_contents($jsonUrl);
-        $list = json_decode($content,true)['zones'];
-        foreach($list as $k=>$v){
-            $list[$k] = [
-                'index'       => $v[0],
+        $list = json_decode($content, true)['zones'];
+        foreach ($list as $v) {
+            $params = [
                 'name'        => $v[1],
                 'addr'        => $v[2],
                 'port'        => $v[3],
@@ -39,8 +39,11 @@ class ServerService extends Service
                 'notice_json' => $v[5],
                 'open_time'   => $v[6],
             ];
-            ServerModel::updateOrCreate($list[$k]);
+            $key = [
+                'index'       => $v[0],
+            ];
+            ServerModel::updateOrCreate($key,$params);
         }
-        return $this->success(Response::HTTP_OK,'请求成功',$this->model->orderBy('index','asc')->get());
+        return $this->success(Response::HTTP_OK, '请求成功', $this->model->orderBy('index', 'asc')->get());
     }
 }

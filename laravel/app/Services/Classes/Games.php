@@ -21,8 +21,9 @@ class Games
         $this->api      = config("game.api");
         $this->basic    = config('game.url');
         $this->secret   = config('game.secret');
-        
+
         loadLibrary('curl.class');
+        loadLibrary('common');
     }
 
     /**
@@ -70,7 +71,7 @@ class Games
      */
     protected function getSign(array &$params)
     {
-        $keyIndex = rand(0, count($this->secret));
+        $keyIndex = rand(0, count($this->secret) - 1);
         $md5Count = rand(0, 2);
 
         $sign = '';
@@ -297,8 +298,9 @@ class Games
      *
      * @return object|bool
      */
-    public function getStopServerTime(){
-        $ret = $this->command('post','game.get_stop_ser_time');
+    public function getStopServerTime()
+    {
+        $ret = $this->command('post', 'game.get_stop_ser_time');
         return $ret;
     }
 
@@ -310,14 +312,15 @@ class Games
      * @param integer $stopSerTime 设置停服维护时间
      * @return bool
      */
-    public function setStopServerTime(int $id,int $stopSerTime){
+    public function setStopServerTime(int $id, int $stopSerTime)
+    {
 
         $params = [
             'id'               => $id,
             'stop_server_time' => $stopSerTime
         ];
 
-        $ret = $this->command('post','game.set_stop_ser_time',$params);
+        $ret = $this->command('post', 'game.set_stop_ser_time', $params);
         return $this->check($ret);
     }
 
@@ -391,10 +394,11 @@ class Games
      *
      * @return array|false
      */
-    public function getAllWhiteList(){
-        $ret = $this->command('post','game.get_all_wlist');
-        if($ret)
-            $ret = json_decode($ret->result,true);
+    public function getAllWhiteList()
+    {
+        $ret = $this->command('post', 'game.get_all_wlist');
+        if ($ret)
+            $ret = json_decode($ret->result, true);
         return $ret;
     }
 
@@ -493,7 +497,7 @@ class Games
         return $this->check($ret);
     }
 
-    
+
     /**
      * 获取所有轮回洞地图
      *
@@ -551,10 +555,11 @@ class Games
      *
      * @return array|false
      */
-    public function getAllLunhuiMap(){
-        $ret = $this->command('post','game.zone_ser_map');
-        if($ret)
-            $ret = json_decode($ret->result,true);
+    public function getAllLunhuiMap()
+    {
+        $ret = $this->command('post', 'game.zone_ser_map');
+        if ($ret)
+            $ret = json_decode($ret->result, true);
         return $ret;
     }
 
@@ -587,12 +592,15 @@ class Games
      * @param string $nickname　角色昵称
      * @return object|false
      */
-    public function getRoleInfo(int $uid, string $nickname)
+    public function getRoleInfo(int $uid = 0, string $nickname = '')
     {
-
-        $ret = $this->command('post', 'user.get_role_info', ['uid' => $uid, 'nick' => $nickname]);
+        $data['uid'] = $uid;
+        if ($uid == 0) {
+            $data['nick'] = $nickname;
+        }
+        $ret = $this->command('post', 'user.get_role_info', $data);
         if ($ret)
-            $ret = json_decode($ret->result);
+            $ret = json_decode($ret->result, true);
         return $ret;
     }
 
@@ -617,7 +625,4 @@ class Games
         $ret = $this->command('post', 'user.update_status', $params);
         return $this->check($ret);
     }
-
-
-
 }

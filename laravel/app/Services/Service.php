@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\System\MenuModel;
 use App\Utils\ResultHelper;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +37,10 @@ class Service
     {
         try {
             $result = $this->model->where($data)->get()->toArray();
-            $result = $this->success(Response::HTTP_OK, '获取全部数据成功！', ["menus" => $result]);
+            $key = 'data';
+            if(typeOf($this->model)===MenuModel::class)
+                $key = "menus";
+            $result = $this->success(Response::HTTP_OK, '获取全部数据成功！', [$key => $result]);
         } catch (\Exception $ex) {
             $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
         }

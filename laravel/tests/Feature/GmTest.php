@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Game\ServerModel;
 use App\Services\Game\ServerService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Services\Classes\CosClient;
 use Services\Facades\Games;
 use Tests\TestCase;
@@ -40,13 +39,27 @@ class GmTest extends TestCase
     }
 
     public function testIp(){
-        $ret = ip_addr('220.181.38.251');
+        $ret = ip_addr('172.20.224.1');
         var_dump($ret);
         return $this->assertIsBool(true);
     }
 
     public function testUpdateCosClient(){
-        $ret = CosClient::updateJson('{test}','test.json');
+        $ret = (new CosClient())->upLoadJson('{test}','test.json');
+        var_dump($ret);
         return $this->assertIsBool(true);
+    }
+
+    public function testDeleteCosClient(){
+        $ret = (new CosClient())->deleteObj('json/test.json');
+        var_dump($ret);
+        return $this->assertIsBool(true);
+    }
+
+    public function testJsonDecode(){
+        $jsonStr = "{\"goldCount\":300}";
+        $ret = json_decode($jsonStr,true);
+        var_dump($ret);
+        return $this->assertIsArray($ret);
     }
 }
