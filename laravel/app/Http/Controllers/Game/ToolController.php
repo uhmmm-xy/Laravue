@@ -20,6 +20,6 @@ class ToolController extends Controller
            return $this->failed('查无此人');
         }
 
-        return $this->responseJson($user);
+        return $this->success($user);
     }
 }

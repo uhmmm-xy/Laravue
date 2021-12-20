@@ -96,7 +96,7 @@ class AdminTest extends TestCase
     public function testGetUser(){
         $data = [
             'userId' => '1001720001',
-            'nickname' => '纪连虎'
+            // 'nickname' => '纪连虎'
         ];
         $response = $this->authRequest('get', route('Game_getUser'), $data);
         $response->assertJson([
