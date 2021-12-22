@@ -592,7 +592,7 @@ class Games
      * @param string $nickname　角色昵称
      * @return object|false
      */
-    public function getRoleInfo(int $uid = 0, string $nickname = '')
+    public function getRoleInfo(int $uid = 0, ?string $nickname = '')
     {
         $data['uid'] = $uid;
         if ($uid == 0) {

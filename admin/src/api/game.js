@@ -78,3 +78,21 @@ export const getNoticeList = (params) => {
         params
     })
 }
+
+//获取角色信息
+export const getUser = (params) => {
+    return service({
+        url: "/game/tool/getUser",
+        method: 'POST',
+        params
+    })
+}
+
+
+export const updateUserStatus = (params) => {
+    return service({
+        url: "/game/tool/setUserStatus",
+        method: 'POST',
+        params
+    })
+}

@@ -143,8 +143,7 @@ Route::namespace('App\Http\Controllers\Game')->group(function () {
             Route::delete('/{id}', 'NoticeController@destroy')->name('Game_noticeDestroy');
         });
 
-        Route::get('/tool/getUser','ToolController@getUser')->name('Game_getUser');
+        Route::post('/tool/getUser', 'ToolController@getUser')->name('Game_getUser');
+        Route::post('/tool/setUserStatus', 'ToolController@setUserStatus')->name('Game_setUserStatus');
     });
-
-    
 });
