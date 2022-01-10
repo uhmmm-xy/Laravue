@@ -2,7 +2,7 @@
 
 ---
 
-| ·      | 表明                    | 引擎     | 类型      | 备注                                    |
+| ·      | 表名                    | 引擎     | 类型      | 备注                                    |
 | ------ | ----------------------- | -------- | --------- | --------------------------------------- |
 | **1**  | **game_user**           | `InnoDB` | _Mysql_   | [用户表](#game_user)                    |
 | **2**  | **game_role**           | `InnoDB` | _Mysql_   | [角色表](#game_role)                    |
@@ -23,14 +23,16 @@
 | **17** | **game_shop**           | `InnoDB` | _Mysql_   | [商品列表](#game_shop)                  |
 | **18** | **game_user_prop**      | ~~\\~~   | _MongoDB_ | [玩家道具表](#game_user_prop)           |
 | **19** | **game_user_prop_log**  | ~~\\~~   | _MongoDB_ | [玩家道具变动日志](#game_user_prop_log) |
-| **20** | **game_user_event_log** | `InnoDB` | _MongoDB_ | [玩家事件日志](#game_user_event_log)    |
+| **20** | **game_user_event_log** | ~~\\~~   | _MongoDB_ | [玩家事件日志](#game_user_event_log)    |
 | **21** | **game_map**            | `InnoDB` | _Mysql_   | [游戏地图表](#game_map)                 |
 | **22** | **task_cfg**            | ~~\\~~   | _MongoDB_ | [任务配置](#task_cfg)                   |
+| **23** | **task_cfg**            | ~~\\~~   | _MongoDB_ | [任务配置](#game_pay_channel)                   |
 
 ---
 
 #### 用户表 : {#game_user}
 
+[begin]:game_user
 ---
 
 > [Return :top:](#menu)
@@ -69,10 +71,12 @@
 | **created_at**          | `datetime`     | _def:created_at_                           | _创建时间_                          |
 | **updated_at**          | `datetime`     | _def:updated_at_                           | _修改时间_                          |
 
+[end]:game_user
 ---
 
 #### 角色表 {#game_role}
 
+[begin]:game_role
 ---
 
 > [Return :top:](#menu)
@@ -99,9 +103,11 @@
 | **created_at**    | `datetime`     | _def:created_at_                       | _创建时间_               |
 | **updated_at**    | `datetime`     | _def:updated_at_                       | _修改时间_               |
 
+[end]:game_role
 ---
 #### 渠道表 {#game_channel}
 
+[begin]:game_channel
 ---
 
 > [Return :top:](#menu)
@@ -121,9 +127,12 @@
 | **created_at**    | `datetime`     | _def:created_at_ | _创建时间_               |
 | **updated_at**    | `datetime`     | _def:updated_at_ | _修改时间_               |
 
+[end]:game_channel
 ---
 
 #### 道具表 {#game_prop}
+
+[begin]:game_prop
 
 ---
 
@@ -162,8 +171,13 @@
 }
 
 ```
+[end]:game_prop
+
+---
 
 #### 活动表 {#game_activity}
+
+[begin]:game_activity
 
 ---
 
@@ -173,22 +187,25 @@
 
 ---
 
-| col        | type           | key            | mark                                   |
-| ---------- | -------------- | -------------- | -------------------------------------- |
-| id         | `int(11)`      | _pk,increment_ | ~~\\~~                                 |
-| name       | `varchar(100)` | _unique_       | _活动名_                               |
-| status     | `int(11)`      | _def:0_        | _活动状态 0:关闭,1:开启,2:等待开启..._ |
-| ord        | `int(11)`      | _def:1_        | _活动排序_                             |
-| model      | `varchar(100)` | _not null_     | _活动模板_                             |
-| times      | `varchar(100)` | _not null_     | _活动时间_                             |
-| begin_time | `datetime`     | _not null_     | _开始时间_                             |
-| end_time   | `datetime`     | _def:null_     | _结束时间,为 null 则无时间限制_        |
-| created_at | `datetime`     | _not null_     | _创建时间_                             |
-| updated_at | `datetime`     | _not null_     | _修改时间_                             |
+| col            | type           | key            | mark                                   |
+| -------------- | -------------- | -------------- | -------------------------------------- |
+| **id**         | `int(11)`      | _pk,increment_ | ~~\\~~                                 |
+| **name**       | `varchar(100)` | _unique_       | _活动名_                               |
+| **status**     | `int(11)`      | _def:0_        | _活动状态 0:关闭,1:开启,2:等待开启..._ |
+| **ord**        | `int(11)`      | _def:1_        | _活动排序_                             |
+| **model**      | `varchar(100)` | _not null_     | _活动模板_                             |
+| **times**      | `varchar(100)` | _not null_     | _活动时间_                             |
+| **begin_time** | `datetime`     | _not null_     | _开始时间_                             |
+| **end_time**   | `datetime`     | _def:null_     | _结束时间,为 null 则无时间限制_        |
+| **created_at** | `datetime`     | _not null_     | _创建时间_                             |
+| **updated_at** | `datetime`     | _not null_     | _修改时间_                             |
+
+[end]:game_activity
 
 ---
 #### 活动配置表 {#game_activity_cfg}
 
+[begin]:game_activity_cfg
 ---
 
 > [Return :top:](#menu)
@@ -211,9 +228,13 @@
 }
 
 ```
+[end]:game_activity_cfg
+
+---
 
 #### 服务器表 {#game_server}
 
+[begin]:game_server
 ---
 
 > [Return :top:](#menu)
@@ -222,24 +243,27 @@
 
 ---
 
-| col         | type           | key                                    | mark                              |
-| ----------- | -------------- | -------------------------------------- | --------------------------------- |
-| id          | `int(11)`      | _pk,increment_                         | ~~\\~~                            |
-| server_name | `varchar(100)` | _not null_                             | _服务器名_                        |
-| ip          | `varchar(100)` | _not null_                             | _服务器地址_                      |
-| port        | `int(11)`      | _not null_                             | _服务器端口_                      |
-| node_id     | `int(11)`      | _this:left_right_arrow:game_node.id_   | _服务器节点 ID_                   |
-| index       | `int(11)`      | _def:0_                                | _游戏服 ID_                       |
-| notice_id   | `int(11)`      | _this:left_right_arrow:game_notice.id_ | _公告 ID_                         |
-| open_time   | `datetime`     | _def:null_                             | _开服时间,null 为不限制_          |
-| des_id      | `int(11)`      | _this:left_right_arrow:this.id_        | _合服目标 ID_                     |
-| status      | `int(11)`      | _def:0_                                | _服务器状态,0:停用,1:开服,2:维护_ |
-| created_at  | `datetime`     | _def:now_                              | _创建时间_                        |
-| updated_at  | `datetime`     | _def:now_                              | _修改时间_                        |
+| col             | type           | key                                    | mark                              |
+| --------------- | -------------- | -------------------------------------- | --------------------------------- |
+| **id**          | `int(11)`      | _pk,increment_                         | ~~\\~~                            |
+| **server_name** | `varchar(100)` | _not null_                             | _服务器名_                        |
+| **ip**          | `varchar(100)` | _not null_                             | _服务器地址_                      |
+| **port**        | `int(11)`      | _not null_                             | _服务器端口_                      |
+| **node_id**     | `int(11)`      | _this:left_right_arrow:game_node.id_   | _服务器节点 ID_                   |
+| **index**       | `int(11)`      | _def:0_                                | _游戏服 ID_                       |
+| **notice_id**   | `int(11)`      | _this:left_right_arrow:game_notice.id_ | _公告 ID_                         |
+| **open_time**   | `datetime`     | _def:null_                             | _开服时间,null 为不限制_          |
+| **des_id**      | `int(11)`      | _this:left_right_arrow:this.id_        | _合服目标 ID_                     |
+| **status**      | `int(11)`      | _def:0_                                | _服务器状态,0:停用,1:开服,2:维护_ |
+| **created_at**  | `datetime`     | _def:now_                              | _创建时间_                        |
+| **updated_at**  | `datetime`     | _def:now_                              | _修改时间_                        |
 
+[end]:game_server
 ---
 
 #### 服务器节点 {#game_node}
+
+[begin]:game_node
 
 ---
 
@@ -249,20 +273,24 @@
 
 ---
 
-| col            | type           | key            | mark           |
-| -------------- | -------------- | -------------- | -------------- |
-| id             | `int(11)`      | _pk,increment_ | ~~\\~~         |
-| name           | `varchar(50)`  | _not null_     | _节点名_       |
-| ip             | `varchar(20)`  | _not null_     | _节点地址_     |
-| port           | `int(11)`      | _not null_     | _端口号_       |
-| node_stop_time | `datetime`     | _def:null_     | _节点停止时间_ |
-| mark           | `varchar(500)` | _def:null_     | _节点备注_     |
-| created_at     | `datetime`     | _def:now_      | _创建时间_     |
-| updated_at     | `datetime`     | _def:now_      | _修改时间_     |
+| col                | type           | key            | mark           |
+| ------------------ | -------------- | -------------- | -------------- |
+| **id**             | `int(11)`      | _pk,increment_ | ~~\\~~         |
+| **name**           | `varchar(50)`  | _not null_     | _节点名_       |
+| **ip**             | `varchar(20)`  | _not null_     | _节点地址_     |
+| **port**           | `int(11)`      | _not null_     | _端口号_       |
+| **node_stop_time** | `datetime`     | _def:null_     | _节点停止时间_ |
+| **mark**           | `varchar(500)` | _def:null_     | _节点备注_     |
+| **created_at**     | `datetime`     | _def:now_      | _创建时间_     |
+| **updated_at**     | `datetime`     | _def:now_      | _修改时间_     |
+
+[end]:game_node
 
 ---
 
 #### 合服日志 {#game_merge_log}
+
+[begin]:game_merge_log
 
 ---
 
@@ -272,21 +300,24 @@
 
 ---
 
-| col        | type            | key                                    | mark                         |
-| ---------- | --------------- | -------------------------------------- | ---------------------------- |
-| id         | `int(11)`       | _pk,increment_                         | ~~\\~~                       |
-| source_id  | `int(11)`       | _this:left_right_arrow:game_server.id_ | _来源服 ID_                  |
-| target_id  | `int(11)`       | _this:left_right_arrow:game_server.id_ | _目标服 ID_                  |
-| mark       | `varchar(5000)` | _def:null_                             | _合服备注_                   |
-| take_time  | `datetime`      | _def:null_                             | _生效时间,null 不生效_       |
-| status     | `int(1)`        | _def:0_                                | _执行状态,0:未执行,1:已执行_ |
-| created_at | `datetime`      | _def:now_                              | _创建时间_                   |
-| updated_at | `datetime`      | _def:now_                              | _修改时间_                   |
+| col            | type            | key                                    | mark                         |
+| -------------- | --------------- | -------------------------------------- | ---------------------------- |
+| **id**         | `int(11)`       | _pk,increment_                         | ~~\\~~                       |
+| **source_id**  | `int(11)`       | _this:left_right_arrow:game_server.id_ | _来源服 ID_                  |
+| **target_id**  | `int(11)`       | _this:left_right_arrow:game_server.id_ | _目标服 ID_                  |
+| **mark**       | `varchar(5000)` | _def:null_                             | _合服备注_                   |
+| **take_time**  | `datetime`      | _def:null_                             | _生效时间,null 不生效_       |
+| **status**     | `int(1)`        | _def:0_                                | _执行状态,0:未执行,1:已执行_ |
+| **created_at** | `datetime`      | _def:now_                              | _创建时间_                   |
+| **updated_at** | `datetime`      | _def:now_                              | _修改时间_                   |
+
+[end]:game_merge_log
 
 ---
 
 #### 礼品码 {#game_gift_code}
 
+[begin]:game_gift_code
 ---
 
 > [Return :top:](#menu)
@@ -295,19 +326,21 @@
 
 ---
 
-| col        | type             | key                                      | mark             |
-| ---------- | ---------------- | ---------------------------------------- | ---------------- |
-| id         | `int(11)`        | _pk,increment_                           | ~~\\~~           |
-| code       | `varchar(32)`    | _unique_                                 | _唯一的兑换码_   |
-| gift_id    | `int(11)`        | \_this:left_right_arrow:game_gift_cfg.id | _礼物配置 id_    |
-| limit      | `int(11)`        | _def:1_                                  | _礼物可领取次数_ |
-| count      | `int(11)`_def:0_ | _已领取次数_                             |
-| created_at | `datetime`       | _def:now_                                | _创建时间_       |
-| updated_at | `datetime`       | _def:now_                                | _修改时间_       |
+| col            | type             | key                                      | mark             |
+| -------------- | ---------------- | ---------------------------------------- | ---------------- |
+| **id**         | `int(11)`        | _pk,increment_                           | ~~\\~~           |
+| **code**       | `varchar(32)`    | _unique_                                 | _唯一的兑换码_   |
+| **gift_id**    | `int(11)`        | \_this:left_right_arrow:game_gift_cfg.id | _礼物配置 id_    |
+| **limit**      | `int(11)`        | _def:1_                                  | _礼物可领取次数_ |
+| **count**      | `int(11)`_def:0_ | _已领取次数_                             |
+| **created_at** | `datetime`       | _def:now_                                | _创建时间_       |
+| **updated_at** | `datetime`       | _def:now_                                | _修改时间_       |
 
+[end]:game_gift_code
 ---
 #### 礼品码配置 {#game_gift_cfg}
 
+[begin]:game_gift_cfg
 ---
 
 > [Return :top:](#menu)
@@ -316,20 +349,22 @@
 
 ---
 
-| col        | type       | key            | mark                                              |
-| ---------- | ---------- | -------------- | ------------------------------------------------- |
-| id         | `int(11)`  | _pk,increment_ | ~~\\~~                                            |
-| limit      | `int(11)`  | _def:0_        | _可领取次数_                                      |
-| count      | `int(11)`  | _def:0_        | _已领取次数_                                      |
-| is_repeat  | `int(1)`   | \_def:0        | _是否可以重复领取_                                |
-| pkg        | `array`    | _not null_     | _礼包内容,array(object){item_id:1,item_count:1,}_ |
-| status     | `int(11)`  | _def:0_        | _礼包状态_                                        |
-| created_at | `datetime` | _def:now_      | _创建时间_                                        |
-| updated_at | `datetime` | _def:now_      | _修改时间_                                        |
+| col            | type       | key            | mark                                              |
+| -------------- | ---------- | -------------- | ------------------------------------------------- |
+| **id**         | `int(11)`  | _pk,increment_ | ~~\\~~                                            |
+| **limit**      | `int(11)`  | _def:0_        | _可领取次数_                                      |
+| **count**      | `int(11)`  | _def:0_        | _已领取次数_                                      |
+| **is_repeat**  | `int(1)`   | \_def:0        | _是否可以重复领取_                                |
+| **pkg**        | `array`    | _not null_     | _礼包内容,array(object){item_id:1,item_count:1,}_ |
+| **status**     | `int(11)`  | _def:0_        | _礼包状态_                                        |
+| **created_at** | `datetime` | _def:now_      | _创建时间_                                        |
+| **updated_at** | `datetime` | _def:now_      | _修改时间_                                        |
 
+[end]:game_gift_cfg
 ---
 #### 礼品码领取日志 {#game_gift_log}
 
+[begin]:game_gift_log
 ---
 
 > [Return :top:](#menu)
@@ -338,20 +373,22 @@
 
 ---
 
-| col         | type       | key                                       | mark               |
-| ----------- | ---------- | ----------------------------------------- | ------------------ |
-| id          | `int(11)`  | _pk,increment_                            | ~~\\~~             |
-| user_id     | `int(11)`  | _this:left_right_arrow:game_user.id_      | _用户 ID_          |
-| role_id     | `int(11)`  | _this:left_right_arrow:game_role.id_      | _角色 ID_          |
-| code_id     | `int(11)`  | \_this:left_right_arrow:game_gift_code.id | _礼包码 ID_        |
-| gift_cfg_id | `int(11)`  | \_this:left_right_arrow:game_gift_cfg.id  | _礼包码配置 ID_    |
-| gift_pkg    | `array`    | _not null_                                | _领取时的礼物配置_ |
-| created_at  | `datetime` | _not null_                                | _领取时间_         |
-| updated_at  | `datetime` | _not null_                                | _修改时间_         |
+| col             | type       | key                                       | mark               |
+| --------------- | ---------- | ----------------------------------------- | ------------------ |
+| **id**          | `int(11)`  | _pk,increment_                            | ~~\\~~             |
+| **user_id**     | `int(11)`  | _this:left_right_arrow:game_user.id_      | _用户 ID_          |
+| **role_id**     | `int(11)`  | _this:left_right_arrow:game_role.id_      | _角色 ID_          |
+| **code_id**     | `int(11)`  | \_this:left_right_arrow:game_gift_code.id | _礼包码 ID_        |
+| **gift_cfg_id** | `int(11)`  | \_this:left_right_arrow:game_gift_cfg.id  | _礼包码配置 ID_    |
+| **gift_pkg**    | `array`    | _not null_                                | _领取时的礼物配置_ |
+| **created_at**  | `datetime` | _not null_                                | _领取时间_         |
+| **updated_at**  | `datetime` | _not null_                                | _修改时间_         |
 
+[end]:game_gift_log
 ---
 #### 系统公告 {#game_notice}
 
+[begin]:game_notice
 ---
 
 > [Return :top:](#menu)
@@ -360,18 +397,20 @@
 
 ---
 
-| col        | type           | key            | mark           |
-| ---------- | -------------- | -------------- | -------------- |
-| id         | `int(11)`      | _pk,increment_ | ~~\\~~         |
-| title      | `varchar(500)` | _not null_     | _标题_         |
-| content    | `text`         | _not null_     | _公告内容_     |
-| json_url   | `varchar(255)` | _not null_     | _公告配置地址_ |
-| created_at | `datetime`     | _not null_     | _创建时间_     |
-| updated_at | `datetime`     | _not null_     | _修改时间_     |
+| col            | type           | key            | mark           |
+| -------------- | -------------- | -------------- | -------------- |
+| **id**         | `int(11)`      | _pk,increment_ | ~~\\~~         |
+| **title**      | `varchar(500)` | _not null_     | _标题_         |
+| **content**    | `text`         | _not null_     | _公告内容_     |
+| **json_url**   | `varchar(255)` | _not null_     | _公告配置地址_ |
+| **created_at** | `datetime`     | _not null_     | _创建时间_     |
+| **updated_at** | `datetime`     | _not null_     | _修改时间_     |
 
+[end]:game_notice
 ---
 #### 全服邮件 {#game_ser_mail}
 
+[begin]:game_ser_mail
 ---
 
 > [Return :top:](#menu)
@@ -380,22 +419,26 @@
 
 ---
 
-| col        | type           | key            | mark           |
-| ---------- | -------------- | -------------- | -------------- |
-| id         | `int(11)`      | _pk,increment_ | ~~\\~~         |
-| title      | `varchar(255)` | _not null_     | _标题_         |
-| content    | `text`         | _not null_     | _内容_         |
-| attch      | `array`        | _def:null_     | _邮件附加道具_ |
-| server_id  | `int(11)`      | _not null_     | _服务器 ID_    |
-| timing     | `datetime`     | _def:null_     | _定时_         |
-| valid_day  | `datetime`     | _def:null_     | _有效时间_     |
-| status     | `int(11)`      | _def:0_        | _发送状态_     |
-| created_at | `datetime`     | _not null_     | _创建时间_     |
-| updated_at | `datetime`     | _not null_     | _修改时间_     |
+| col            | type           | key            | mark           |
+| -------------- | -------------- | -------------- | -------------- |
+| **id**         | `int(11)`      | _pk,increment_ | ~~\\~~         |
+| **title**      | `varchar(255)` | _not null_     | _标题_         |
+| **content**    | `text`         | _not null_     | _内容_         |
+| **attch**      | `array`        | _def:null_     | _邮件附加道具_ |
+| **server_id**  | `int(11)`      | _not null_     | _服务器 ID_    |
+| **timing**     | `datetime`     | _def:null_     | _定时_         |
+| **valid_day**  | `datetime`     | _def:null_     | _有效时间_     |
+| **status**     | `int(11)`      | _def:0_        | _发送状态_     |
+| **created_at** | `datetime`     | _not null_     | _创建时间_     |
+| **updated_at** | `datetime`     | _not null_     | _修改时间_     |
+
+[end]:game_ser_mail
 
 ---
+
 #### 玩家邮件 {#game_user_mail}
 
+[begin]:game_user_mail
 ---
 
 > [Return :top:](#menu)
@@ -404,23 +447,25 @@
 
 ---
 
-| col        | type       | key                                    | mark                         |
-| ---------- | ---------- | -------------------------------------- | ---------------------------- |
-| id         | `int(11)`  | _pk,increment_                         | ~~\\~~                       |
-| title      | `int(11)`  | _not null_                             | _标题_                       |
-| content    | `text`     | _not null_                             | _内容_                       |
-| attch      | `array`    | _def:null_                             | _附加道具_                   |
-| server_id  | `int(11)`  | _this:left_right_arrow:game_server.id_ | _服务器 id_                  |
-| user_id    | `int(11)`  | _this:left_right_arrow:game_user.id_   | _用户 id_                    |
-| role_id    | `int(11)`  | _this:left_right_arrow:game_role.id_   | _角色 id_                    |
-| status     | `int(11)`  | _def:0_                                | _邮件状态:0 未领取,1 已领取_ |
-| created_at | `datetime` | _not null_                             | _创建时间_                   |
-| updated_at | `datetime` | _not null_                             | _修改时间_                   |
+| col            | type       | key                                    | mark                         |
+| -------------- | ---------- | -------------------------------------- | ---------------------------- |
+| **id**         | `int(11)`  | _pk,increment_                         | ~~\\~~                       |
+| **title**      | `int(11)`  | _not null_                             | _标题_                       |
+| **content**    | `text`     | _not null_                             | _内容_                       |
+| **attch**      | `array`    | _def:null_                             | _附加道具_                   |
+| **server_id**  | `int(11)`  | _this:left_right_arrow:game_server.id_ | _服务器 id_                  |
+| **user_id**    | `int(11)`  | _this:left_right_arrow:game_user.id_   | _用户 id_                    |
+| **role_id**    | `int(11)`  | _this:left_right_arrow:game_role.id_   | _角色 id_                    |
+| **status**     | `int(11)`  | _def:0_                                | _邮件状态:0 未领取,1 已领取_ |
+| **created_at** | `datetime` | _not null_                             | _创建时间_                   |
+| **updated_at** | `datetime` | _not null_                             | _修改时间_                   |
 
+[end]:game_user_mail
 ---
 
 #### 充值订单 {#game_order}
 
+[begin]:game_order
 ---
 
 > [Return :top:](#menu)
@@ -429,28 +474,30 @@
 
 ---
 
-| col              | type           | key                                    | mark         |
-| ---------------- | -------------- | -------------------------------------- | ------------ |
-| id               | `int(11)`      | _pk,increment_                         | ~~\\~~       |
-| shop_id          | `int(11)`      | _this:left_right_arrow:game_shop.id_   | _商品 ID_    |
-| amount           | `int(11)`      | _not null_                             | _付款金额_   |
-| channel_id       | `int(11)`      | _not null_                             | _支付渠道_   |
-| channel_name     | `varchar(255)` | _not null_                             | _渠道名称_   |
-| channel_order_id | `varchar(255)` | _not null_                             | _渠道订单号_ |
-| order_id         | `varchar(255)` | _not null_                             | _订单号_     |
-| user_id          | `int(11)`      | _this:left_right_arrow:game_user.id_   | _用户 ID_    |
-| server_id        | `int(11)`      | _this:left_right_arrow:game_server.id_ | _服务器 ID_  |
-| role_id          | `int(11)`      | _this:left_right_arrow:game_role.id_   | _角色 ID_    |
-| status           | `int(11)`      | _not null_                             | _订单状态_   |
-| currency         | `int(11)`      | _not null_                             | _支付币种_   |
-| pay_amount       | `int(11)`      | _def:null_                             | _支付金额_   |
-| created_at       | `datetime`     | _not null_                             | _创建时间_   |
-| updated_at       | `datetime`     | _not null_                             | _修改时间_   |
+| col                  | type           | key                                    | mark         |
+| -------------------- | -------------- | -------------------------------------- | ------------ |
+| **id**               | `int(11)`      | _pk,increment_                         | ~~\\~~       |
+| **shop_id**          | `int(11)`      | _this:left_right_arrow:game_shop.id_   | _商品 ID_    |
+| **amount**           | `int(11)`      | _not null_                             | _付款金额_   |
+| **channel_id**       | `int(11)`      | _not null_                             | _支付渠道_   |
+| **channel_name**     | `varchar(255)` | _not null_                             | _渠道名称_   |
+| **channel_order_id** | `varchar(255)` | _not null_                             | _渠道订单号_ |
+| **order_id**         | `varchar(255)` | _not null_                             | _订单号_     |
+| **user_id**          | `int(11)`      | _this:left_right_arrow:game_user.id_   | _用户 ID_    |
+| **server_id**        | `int(11)`      | _this:left_right_arrow:game_server.id_ | _服务器 ID_  |
+| **role_id**          | `int(11)`      | _this:left_right_arrow:game_role.id_   | _角色 ID_    |
+| **status**           | `int(11)`      | _not null_                             | _订单状态_   |
+| **currency**         | `int(11)`      | _not null_                             | _支付币种_   |
+| **pay_amount**       | `int(11)`      | _def:null_                             | _支付金额_   |
+| **created_at**       | `datetime`     | _not null_                             | _创建时间_   |
+| **updated_at**       | `datetime`     | _not null_                             | _修改时间_   |
 
+[end]:game_order
 ---
 
 #### 商品列表 {#game_shop}
 
+[begin]:game_shop
 ---
 
 > [Return :top:](#menu)
@@ -459,20 +506,22 @@
 
 ---
 
-| col        | type           | key            | mark                                 |
-| ---------- | -------------- | -------------- | ------------------------------------ |
-| id         | `int(11)`      | _pk,increment_ | ~~\\~~                               |
-| amount     | `int(11)`      | _not null_     | _商品价值_                           |
-| title      | `varchar(255)` | _not null_     | _商品名称_                           |
-| attch      | `array`        | _not null_     | _商品包_                             |
-| status     | `int(11)`      | _def:0_        | \_商品状态,0:未启用,1:启用,-1:软删除 |
-| type       | `int(11)`      | _def:0_        | _商品类型_                           |
-| created_at | `datetime`     | _not null_     | _创建时间_                           |
-| updated_at | `datetitme`    | _not null_     | _修改时间_                           |
+| col            | type           | key            | mark                                 |
+| -------------- | -------------- | -------------- | ------------------------------------ |
+| **id**         | `int(11)`      | _pk,increment_ | ~~\\~~                               |
+| **amount**     | `int(11)`      | _not null_     | _商品价值_                           |
+| **title**      | `varchar(255)` | _not null_     | _商品名称_                           |
+| **attch**      | `array`        | _not null_     | _商品包_                             |
+| **status**     | `int(11)`      | _def:0_        | \_商品状态,0:未启用,1:启用,-1:软删除 |
+| **type**       | `int(11)`      | _def:0_        | _商品类型_                           |
+| **created_at** | `datetime`     | _not null_     | _创建时间_                           |
+| **updated_at** | `datetitme`    | _not null_     | _修改时间_                           |
 
+[end]:game_order
 ---
 #### 玩家道具表 {#game_user_prop}
 
+[begin]:game_user_prop
 ---
 
 > [Return :top:](#menu)
@@ -488,10 +537,13 @@
 }
 
 ```
+
+[end]:game_order
 ---
 
 #### 玩家道具变动日志 {#game_user_prop_log}
 
+[begin]:game_user_prop_log
 ---
 
 > [Return :top:](#menu)
@@ -508,20 +560,34 @@
 
 ```
 
+[end]:game_user_prop_log
+
 ---
 #### 玩家事件日志 {#game_user_event_log}
 
+[begin]:game_user_event_log
 ---
 
+> [Return :top:](#menu)
+
+> `game_user_event_log` for **MongoDB**
+
 ---
 
-| col | type | key | mark |
-| --- | ---- | --- | ---- |
+```json
 
+{
+
+}
+
+```
+
+[end]:game_user_event_log
 
 ---
 #### 游戏地图表 {#game_map}
 
+[begin]:game_map
 ---
 
 
@@ -529,4 +595,31 @@
 | col | type | key | mark |
 | --- | ---- | --- | ---- |
 
+[end]:game_user_event_log
+---
+
+#### 支付渠道表 {#game_pay_channel}
+
+[begin]:game_pay_channel
+---
+
+> [Retrun :top:](#menu)
+> `game_pay_channel` for **Mysql**
+
+---
+| col            | type           | key            | mark        |
+| -------------- | -------------- | -------------- | ----------- |
+| **id**         | `int(11)`      | _pk,increment_ | ~~\\~~      |
+| **name**       | `varchar(100)` | _not null_     | _渠道名_    |
+| **alias**      | `varchar(100)` | _not null_     | _渠道别名_  |
+| **type**       | `int(11)`      | _def:0_        | _渠道类型_  |
+| **status**     | `int(11)`      | _def:0_        | _渠道状态_  |
+| **https**      | `int(1)`       | _def:0_        | _是否https_ |
+| **weight**     | `int(11)`      | _def:0_        | _权重_      |
+| **extra**      | `text`         | _def:0_        | _拓展_      |
+| **remark**     | `varchar(500)` | _def:null_     | _备注_      |
+| **created_at** | `datetime`     | _not null_     | _创建时间_  |
+| **updated_at** | `datetime`     | _not null_     | _修改时间_  |
+
+[end]:game_pay_channel
 ---
