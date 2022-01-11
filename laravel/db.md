@@ -112,7 +112,7 @@
 
 > [Return :top:](#menu)
 
-> `game_channel` for **Mysql**
+> `game_channel` for **MySql**
 
 ---
 
@@ -595,7 +595,7 @@
 | col | type | key | mark |
 | --- | ---- | --- | ---- |
 
-[end]:game_user_event_log
+[end]:game_map
 ---
 
 #### 支付渠道表 {#game_pay_channel}
@@ -603,8 +603,8 @@
 [begin]:game_pay_channel
 ---
 
-> [Retrun :top:](#menu)
-> `game_pay_channel` for **Mysql**
+> [Return :top:](#menu)
+> `game_pay_channel` for **MySql**
 
 ---
 | col            | type           | key            | mark        |
