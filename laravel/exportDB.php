@@ -1,7 +1,4 @@
 <?php
-
-use Symfony\Component\VarDumper\VarDumper;
-
 $file = @fopen('db.md', 'r');
 $tables = [];
 $tableName = false;
