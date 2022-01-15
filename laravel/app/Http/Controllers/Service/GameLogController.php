@@ -10,18 +10,21 @@ use Services\Mongo\UserEventLog;
 class GameLogController extends ApiController{
 
     
-    public function testMongo(){
-        $test = [
-            'user_id' => '111',
-            'role_id' => '1111',
-            'dev_id' => '111',
-            'type' => '1',
-            'attribute' => [
-                'fff'=>"fff"
-            ]
-        ];
+    public function createGameLog(Request $request){
 
-        $log = UserEventLog::create($test);
+        $data = $request->get('data','');
+
+        $params = $request->only([
+            'user_id',
+            'role_id',
+            'server_id',
+            'dev_id' ,
+            'type',
+            'attribute',
+        ]);
+
+        //$params['attribute'] = json_decode($params['attribute'],true);
+        $log = UserEventLog::create($params);
         return $this->success($log);
     }
 }

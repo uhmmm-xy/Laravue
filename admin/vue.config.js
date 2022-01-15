@@ -19,6 +19,7 @@ module.exports = {
             warnings: false,
             errors: true
         },
+        hot:true,
         proxy: {
             // 把key的路径代理到target位置
             // detail: https://cli.vuejs.org/config/#devserver-proxy

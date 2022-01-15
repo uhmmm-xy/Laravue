@@ -147,3 +147,13 @@ Route::namespace('App\Http\Controllers\Game')->group(function () {
         Route::post('/tool/setUserStatus', 'ToolController@setUserStatus')->name('Game_setUserStatus');
     });
 });
+
+
+Route::namespace('App\Http\Controllers\Service')->group(function(){
+    Route::group(['prefix' => 'service', 'middleware' => []], function () {
+        Route::post('gameLog','GameLogController@createGameLog');
+        Route::get('test',function(){
+            return "test";
+        });
+    });
+});

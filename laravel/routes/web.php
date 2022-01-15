@@ -17,5 +17,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/mongoTest','App\Http\Controllers\Service\GameLogController@testMongo');

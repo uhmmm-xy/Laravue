@@ -56,6 +56,7 @@
       <el-table-column label="标题" prop="title"></el-table-column>
       <el-table-column label="类型" prop="type" width="120"></el-table-column>
       <el-table-column label="内容" prop="content"></el-table-column>
+      <el-table-column label="内容" prop="content"></el-table-column>
     </el-table>
     <el-pagination :current-page="page" :page-size="pageSize" :page-sizes="[10, 30, 50, 100]" :style="{float:'right',padding:'20px'}" :total="total" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total, sizes, prev, pager, next, jumper"></el-pagination>
     <!-- 列表展示结束 -->
