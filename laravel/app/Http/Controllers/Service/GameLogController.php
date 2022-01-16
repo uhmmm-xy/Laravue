@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Service;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Services\System\AccessLogService;
+use Services\GameLog\GameLog;
 use Services\Mongo\UserEventLog;
 
 class GameLogController extends ApiController{
@@ -14,17 +15,10 @@ class GameLogController extends ApiController{
 
         $data = $request->get('data','');
 
-        $params = $request->only([
-            'user_id',
-            'role_id',
-            'server_id',
-            'dev_id' ,
-            'type',
-            'attribute',
-        ]);
+        $gameLog = GameLog::decode($data);
 
         //$params['attribute'] = json_decode($params['attribute'],true);
-        $log = UserEventLog::create($params);
+        $log = UserEventLog::create($gameLog);
         return $this->success($log);
     }
 }

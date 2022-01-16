@@ -10,7 +10,8 @@ class UserEventLog extends BaseModel
     protected $fillable = [
         'user_id',
         'role_id',
-        'dev_id',
+        'dev',
+        'log_time',
         'type',
         'attribute',
     ];
