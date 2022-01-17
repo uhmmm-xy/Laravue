@@ -13,6 +13,7 @@ class GameLog
     public $channel_id;
     public $account_id;
     public $uid;
+    public $attribute;
 
     protected $base = [
         'date_time',
@@ -37,9 +38,9 @@ class GameLog
         foreach ($this->base as $index => $value) {
             $this->{$value} = $array[$index];
         }
-        $this->config = config("gameLog." . $this->topic);
+        $this->config = collect(config("gameLog." . $this->topic));
 
-        $this->attr = collect($this->base, $this->config);
+        $this->attr = collect([$this->base, $this->config])->collapse();
 
         $this->json = [
             "user_id" => $this->account_id,
@@ -47,18 +48,29 @@ class GameLog
             "dev" => $this->device,
             "type" => $this->topic,
             "log_time" => $this->trigger_time,
-            "server_id" => $this->src_zone_id
+            "server_id" => $this->zone_id,
+            "ser_server_id" => $this->src_zone_id
         ];
 
         foreach ($this->attr as $index => $value) {
             $this->json["attribute"][$value] = $array[$index];
         }
+        return $this->json;
     }
 
     public static function decode(string $data)
     {
         $attr = explode('|', $data);
         return new GameLog($attr);
+    }
+
+    
+    public function getCollect(){
+        return collect($this->json);
+    }
+
+    public function getArray(){
+        return $this->json;
     }
 
 

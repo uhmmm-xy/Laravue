@@ -4,20 +4,12 @@
         <div class="search-term">
             <el-form
                 :inline="true"
-                :model="searchInfo"
                 class="demo-form-inline"
             >
                 <el-form-item>
-                    <el-select v-model="selectedServer">
-                        <el-option value="1" label="1服"></el-option>
-                        <el-option value="2" label="2服"></el-option>
-                        <el-option value="3" label="3服"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
                     <el-date-picker
                         v-model="dataRange"
-                        type="datetimerange"
+                        type="daterange"
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
@@ -43,71 +35,94 @@
         >
             <el-table-column
                 label="日期"
-                prop="created_at"
+                prop="date"
                 width="180"
             ></el-table-column>
             <el-table-column
                 label="新增用户"
-                prop="PlayerCount"
+                prop="register_count"
             ></el-table-column>
             <el-table-column
                 label="活跃用户"
-                prop="LoginCount"
+                prop="active_count"
             ></el-table-column>
             <el-table-column
                 label="付费总人数"
-                prop="1s_to_10s"
+                prop="pay_count"
             ></el-table-column>
-            <el-table-column label="付费率" prop="10s_to_60s"></el-table-column>
-            <el-table-column label="ARPU" prop="60s_to_5m"></el-table-column>
-            <el-table-column label="ARPPU" prop="5m_to_10m"></el-table-column>
+            <el-table-column label="付费率">
+                <template slot-scope="scope">
+                    {{ scope.row.active_count?scope.row.pay_count/scope.row.active_count:0 }}
+                </template>
+            </el-table-column>
+            <el-table-column label="ARPU">
+                <template slot-scope="scope">
+                    {{ scope.row.active_count?scope.row.pay_total/scope.row.active_count:0 }}
+                </template>
+            </el-table-column>
+            <el-table-column label="ARPPU">
+                <template slot-scope="scope">
+                    {{ scope.row.active_count?scope.row.pay_total/scope.row.pay_count:0 }}
+                </template>
+            </el-table-column>
             <el-table-column
                 label="付费总额"
-                prop="10m_to_30m"
+                prop="pay_total"
             ></el-table-column>
             <el-table-column
                 label="新增付费"
-                prop="30m_to_1h"
+                prop="new_pay_count"
             ></el-table-column>
-            <el-table-column
-                label="新增付费率"
-                prop="1h_to_2h"
-            ></el-table-column>
-            <el-table-column label="新ARPU" prop="2h_so"></el-table-column>
-            <el-table-column label="新ARPPU" prop="2h_so"></el-table-column>
+            <el-table-column label="新增付费率">
+                <template slot-scope="scope">
+                    {{ scope.row.register_count?scope.row.new_pay_count/scope.row.register_count:0 }}
+                </template>
+            </el-table-column>
+            <el-table-column label="新ARPU">
+                <template slot-scope="scope">
+                    {{ scope.row.register_count?scope.row.new_pay_total/scope.row.register_count:0 }}
+                </template>
+            </el-table-column>
+            <el-table-column label="新ARPPU">
+                <template slot-scope="scope">
+                    {{ scope.row.active_count?scope.row.new_pay_total/scope.row.active_count:0 }}
+                </template>
+            </el-table-column>
             <el-table-column
                 label="新增付费总额"
-                prop="2h_so"
+                prop="new_pay_total"
             ></el-table-column>
         </el-table>
-        <el-pagination
-            :current-page="page"
-            :page-size="pageSize"
-            :page-sizes="[10, 30, 50, 100]"
-            :style="{ float: 'right', padding: '20px' }"
-            :total="total"
-            @current-change="handleCurrentChange"
-            @size-change="handleSizeChange"
-            layout="total, sizes, prev, pager, next, jumper"
-        ></el-pagination>
         <!-- 列表展示结束 -->
     </div>
 </template>
 <script>
+import { getStatisDay } from "@/api/statis"
+import moment from 'moment';
+import infoList from "@/components/mixins/infoList";
+
 export default {
     name: "dayStatis",
+    mixins: [infoList],
     data() {
         return {
-            dataRange: "",
-            selectedServer: "",
+            listApi:getStatisDay,
+            dataRange: [moment().subtract(7,'days'),moment()],
         };
     },
     methods: {
-        onSubmit: () => {
-            return false;
+        onSubmit() {
+            this.startTime = moment(this.dataRange[0]).startOf("day").format('YYYY-MM-DD HH:mm:ss');
+            this.endTime = moment(this.dataRange[1]).endOf("day").format('YYYY-MM-DD HH:mm:ss');
+            this.getTableData();
         },
     },
-    async created() {},
+    async created() {
+        this.startTime = moment(this.dataRange[0]).startOf("day").format('YYYY-MM-DD HH:mm:ss');
+        this.endTime = moment(this.dataRange[1]).endOf("day").format('YYYY-MM-DD HH:mm:ss');
+        await this.getTableData();
+        
+    },
 };
 </script>
 

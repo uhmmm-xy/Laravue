@@ -145,15 +145,20 @@ Route::namespace('App\Http\Controllers\Game')->group(function () {
 
         Route::post('/tool/getUser', 'ToolController@getUser')->name('Game_getUser');
         Route::post('/tool/setUserStatus', 'ToolController@setUserStatus')->name('Game_setUserStatus');
+
+        Route::group(['prefix' => 'statis'], function () {
+            Route::get('/getOnline','StatisticsController@getOnline')->name("Statis_GetOnline");
+            Route::get('/getOnlineTime','StatisticsController@getOnlineTime')->name("Statis_GetOnlineTime");
+            Route::get('/getStatisDay','StatisticsController@getStatisDay')->name("Statis_GetStatisDay");
+            Route::get('/getDayPreserve','StatisticsController@getDayPreserve')->name("Statis_GetDayPreserve");
+        });
     });
 });
 
 
-Route::namespace('App\Http\Controllers\Service')->group(function(){
+
+Route::namespace('App\Http\Controllers\Service')->group(function () {
     Route::group(['prefix' => 'service', 'middleware' => []], function () {
-        Route::post('gameLog','GameLogController@createGameLog');
-        Route::get('test',function(){
-            return "test";
-        });
+        Route::post('gameLog', 'GameLogController@createGameLog');
     });
 });

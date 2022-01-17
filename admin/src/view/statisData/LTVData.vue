@@ -52,7 +52,7 @@
     
     <!-- 列表展示开始 -->
     <el-table :data="tableData" border ref="multipleTable" stripe style="width: 100%" tooltip-effect="dark">
-      <el-table-column label="日期" prop="created_at" width="180"></el-table-column>
+      <el-table-column label="日期" prop="date" width="180"></el-table-column>
       <el-table-column label="标题" prop="title"></el-table-column>
       <el-table-column label="类型" prop="type" width="120"></el-table-column>
       <el-table-column label="内容" prop="content"></el-table-column>

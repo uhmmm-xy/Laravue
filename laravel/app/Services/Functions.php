@@ -45,6 +45,18 @@ if (!function_exists('stringToBoolean')) {
     }
 }
 
+if(! function_exists('mongoDateTime')){
+    /**
+     * 转换日期格式 mongodb查询
+     *
+     * @param string $datetime
+     * @return \MongoDB\BSON\UTCDateTime
+     */
+    function mongoDateTime($datetime){
+        return new \MongoDB\BSON\UTCDateTime((new \DateTime($datetime)));
+    }
+}
+
 if (! function_exists('user')){
     /**
      * 获取已登陆用户信息

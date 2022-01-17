@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Service;
 
 use App\Http\Controllers\ApiController;
+use App\Jobs\GameLogJob;
 use Illuminate\Http\Request;
 use App\Services\System\AccessLogService;
 use Services\GameLog\GameLog;
@@ -17,8 +18,8 @@ class GameLogController extends ApiController{
 
         $gameLog = GameLog::decode($data);
 
-        //$params['attribute'] = json_decode($params['attribute'],true);
-        $log = UserEventLog::create($gameLog);
+        $log = UserEventLog::create($gameLog->getArray());
+        GameLogJob::dispatch($log);
         return $this->success($log);
     }
 }

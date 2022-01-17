@@ -26,7 +26,7 @@
 | **20** | **game_user_event_log** | ~~\\~~   | _MongoDB_ | [玩家事件日志](#game_user_event_log)    |
 | **21** | **game_map**            | `InnoDB` | _Mysql_   | [游戏地图表](#game_map)                 |
 | **22** | **task_cfg**            | ~~\\~~   | _MongoDB_ | [任务配置](#task_cfg)                   |
-| **23** | **task_cfg**            | ~~\\~~   | _MongoDB_ | [任务配置](#game_pay_channel)                   |
+| **23** | **task_cfg**            | ~~\\~~   | _MongoDB_ | [任务配置](#game_pay_channel)           |
 
 ---
 
@@ -326,15 +326,15 @@
 
 ---
 
-| col            | type             | key                                      | mark             |
-| -------------- | ---------------- | ---------------------------------------- | ---------------- |
-| **id**         | `int(11)`        | _pk,increment_                           | ~~\\~~           |
-| **code**       | `varchar(32)`    | _unique_                                 | _唯一的兑换码_   |
-| **gift_id**    | `int(11)`        | \_this:left_right_arrow:game_gift_cfg.id | _礼物配置 id_    |
-| **limit**      | `int(11)`        | _def:1_                                  | _礼物可领取次数_ |
-| **count**      | `int(11)`_def:0_ | _已领取次数_                             |
-| **created_at** | `datetime`       | _def:now_                                | _创建时间_       |
-| **updated_at** | `datetime`       | _def:now_                                | _修改时间_       |
+| col            | type          | key                                      | mark             |
+| -------------- | ------------- | ---------------------------------------- | ---------------- |
+| **id**         | `int(11)`     | _pk,increment_                           | ~~\\~~           |
+| **code**       | `varchar(32)` | _unique_                                 | _唯一的兑换码_   |
+| **gift_id**    | `int(11)`     | _this:left_right_arrow:game_gift_cfg.id_ | _礼物配置 id_    |
+| **limit**      | `int(11)`     | _def:1_                                  | _礼物可领取次数_ |
+| **count**      | `int(11)`     | _def:0_                                  | _已领取次数_     |
+| **created_at** | `datetime`    | _def:now_                                | _创建时间_       |
+| **updated_at** | `datetime`    | _def:now_                                | _修改时间_       |
 
 [end]:game_gift_code
 ---
@@ -489,6 +489,7 @@
 | **status**           | `int(11)`      | _not null_                             | _订单状态_   |
 | **currency**         | `int(11)`      | _not null_                             | _支付币种_   |
 | **pay_amount**       | `int(11)`      | _def:null_                             | _支付金额_   |
+| **exp**       | `json`      | _def:null_                             | _拓展字段_   |
 | **created_at**       | `datetime`     | _not null_                             | _创建时间_   |
 | **updated_at**       | `datetime`     | _not null_                             | _修改时间_   |
 
