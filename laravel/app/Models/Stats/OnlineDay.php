@@ -37,6 +37,16 @@ class OnlineDay extends Model
         return self::firstOrCreate(compact('date','zone_id'));
     }
 
+    
+    /**
+     * 获取某天数据，用于日志恢复
+     *
+     * @return static|\Illuminate\Database\Eloquent\Model
+     */
+    static function getDay($zone_id,$date){
+        return self::firstOrCreate(compact('date','zone_id'));
+    }
+
     public function log(int $time)
     {
         if ($time > 3600) {

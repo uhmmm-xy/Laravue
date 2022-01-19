@@ -61,4 +61,5 @@ class RoleModel extends Model
     protected $cats = [
         "exp" => "array"
     ];
+
 }

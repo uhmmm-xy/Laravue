@@ -83,10 +83,10 @@ class UserModel extends Model
     public function login(UserEventLog $log){
 
         $this->last_login_time = Carbon::now();
-        $this->last_login_role = $this->log->getDna()->get('uid');
-        $this->last_login_ser = $this->log->getDna()->get('zone_id');
-        $this->last_login_ip = $this->log->getDna()->get('ip');
-        $this->device_num = $this->log->getDna()->get('device_id');
+        $this->last_login_role = $log->getRole()->id;
+        $this->last_login_ser = $log->getDna()->get('zone_id');
+        $this->last_login_ip = $log->getDna()->get('ip');
+        $this->device_num = $log->getDna()->get('device_id');
 
         $this->save();
         

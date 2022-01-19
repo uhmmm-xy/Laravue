@@ -11,3 +11,4 @@ laravel/composer.lock
 laravel/_ide_helper.php
 /.vscode
 laravel/_custom.php
+laravel/storage/

@@ -13,6 +13,8 @@ class LoginLog extends BaseModel
         'user_id',
         'device_id',
         'ip',
+        'created_at',
+        'updated_at',
     ];
 
     const SORT = [

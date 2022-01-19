@@ -2,12 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Models\Game\OrderModel;
 use App\Models\Game\ServerModel;
 use App\Models\Game\UserModel;
 use App\Services\Game\ServerService;
+use Carbon\Carbon;
 use Services\Classes\CosClient;
 use Services\Facades\Games;
 use Services\GameLog\GameLog;
+use Services\Mongo\OnlineLog;
 use Tests\TestCase;
 
 class GmTest extends TestCase
@@ -99,4 +102,11 @@ class GmTest extends TestCase
         dd($num);
         return $this->assertIsInt($num);
     }
+
+    public function testCreatedAt(){
+        $date = Carbon::parse('2021-01-01 22:21:21');
+        $isDate = Carbon::parse('2021-01-01');
+        return $this->assertTrue($date->is($isDate->format('Y-m-d')));
+    }
+
 }

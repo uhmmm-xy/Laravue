@@ -7,7 +7,6 @@ use App\Models\Game\RoleModel;
 use App\Models\Game\UserModel;
 use App\Models\Stats\OnlineDay;
 use App\Models\Stats\StatsDay;
-use Carbon\Carbon;
 use Services\Mongo\UserEventLog;
 
 class UserService extends Service
@@ -36,14 +35,16 @@ class UserService extends Service
             'last_login_ip'   => $this->log->getDna()->get('ip'),
             'channel'         => $this->log->getDna()->get('acc_type'),
             'password'        => $this->log->getDna()->get('psw'),
-            'last_login_time' => Carbon::now(),
+            'last_login_time' => $this->date,
             'last_login_role' => $this->log->getDna()->get('uid'),
             'last_login_ser'  => $this->log->getDna()->get('zone_id'),
         ];
-        UserModel::create($attr);
+        $user = UserModel::create($attr);
 
-        safeIncrement(StatsDay::getToDay(),'register_count');
-
+        $user->created_at = $this->date;
+        $user->save();
+        safeIncrement(StatsDay::getDay($this->date->format('Ymd')), 'register_count');
+        safeIncrement(StatsDay::getDay($this->date->format('Ymd')), 'active_count');
     }
 
     /**
@@ -56,24 +57,23 @@ class UserService extends Service
         /**@var UserModel $user */
         $user = $this->log->getUser();
 
-        if($this->log->getDna()->get('operation_code')==0){
+        if ($this->log->getDna()->get('operation_code') == 0) {
 
             //上次登录时间不是今天，则日活+1
-            if(!$user->last_login_time->isToday()){
+            if (!$user->last_login_time->is($this->date->format('Y-m-d'))) {
 
-                safeIncrement(StatsDay::getToDay(),'active_count');
+                safeIncrement(StatsDay::getDay($this->day), 'active_count');
 
-                safeIncrement(OnlineDay::getToDay(),'player_count');
-
+                safeIncrement(OnlineDay::getDay($this->log->server_id, $this->day), 'player_count');
             }
 
-            safeIncrement(OnlineDay::getToDay(),'login_count');
+
+            safeIncrement(OnlineDay::getDay($this->log->server_id, $this->day), 'login_count');
 
             $user->login($this->log);
-
-        }else{
+        } else {
             //记录在线时常
-            OnlineDay::getToDay()->log($this->log->getDna()->get('online_time'));
+            OnlineDay::getDay($this->log->server_id, $this->day)->log((int)$this->log->getDna()->get('online_time'));
         }
     }
 
@@ -84,7 +84,7 @@ class UserService extends Service
      */
     public function recharge()
     {
-        if($this->log->getDna()->get('cost_type') != 3){
+        if ($this->log->getDna()->get('cost_type') != 3) {
             return;
         }
         $user = $this->log->getUser();
@@ -100,13 +100,34 @@ class UserService extends Service
             'server_id' => $this->log->getDna()->get('zone_id'),
             'role_id' => $role->id,
             'status' => $this->log->getDna()->get('status'),
-            'exp' => $this->log->getDna()->only(['good_list','cost_type']),
+            'exp' => $this->log->getDna()->only(['good_list', 'cost_type']),
         ];
 
         $order = OrderModel::create($order);
+        $order->created_at = $this->date;
+        $order->save();
+
+        $user->last_recharge = $order->amount;
+        $user->last_recharge_date = $order->created_at;
+
+        safeIncrement($user,'total_recharge',$order->amount);
+
+        if ($user->first_recharge == 0) {
+            safeIncrement(StatsDay::getDay($this->day), 'new_pay_count');
+            safeIncrement(StatsDay::getDay($this->day), 'new_pay_total', $order->amount);
+            $user->first_recharge = $order->amount;
+            $user->first_recharge_date = $order->created_at;
+        }
+
+        if($user->created_at->is($this->date->format('Y-m-d'))){
+            safeIncrement(StatsDay::getDay($this->day), 'register_pay_count');
+            safeIncrement(StatsDay::getDay($this->day), 'register_pay_total', $order->amount);
+        }
 
 
-
+        safeIncrement(StatsDay::getDay($this->day), 'pay_count');
+        safeIncrement(StatsDay::getDay($this->day), 'pay_total', $order->amount);
+        $user->save();
     }
 
     /**
@@ -126,15 +147,16 @@ class UserService extends Service
             'status' => RoleModel::NONE,
         ];
 
-        RoleModel::create($attr);
-        safeIncrement($user,'role_count');
-        safeIncrement(StatsDay::getToDay(),'role_count');
+        $role = RoleModel::create($attr);
+        safeIncrement($user, 'role_count');
+        $role->created_at = $this->date;
+        $role->save();
+        safeIncrement(StatsDay::getDay($this->date->format('Ymd')), 'role_count');
     }
 
-    public function userChange(){
-
+    public function userChange()
+    {
         $role = $this->log->getRole();
         $role->log($this->log);
-
     }
 }

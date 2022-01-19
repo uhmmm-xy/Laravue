@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -48,11 +47,15 @@ class GameLogJob implements ShouldQueue
             switch ($this->gameLog->type) {
 
                 case UserEventLog::ONLINE:
-                    //在线人数上报
+                    //服务器统计
                     (new ServerService($this->gameLog))->run();
                     break;
-                case UserEventLog::RECHARGE:
                 case UserEventLog::REGISTER:
+                case UserEventLog::LOGIN:
+                case UserEventLog::RECHARGE:
+                case UserEventLog::ROLE_CREATE:
+                case UserEventLog::USER_CHANGE:
+                    //用户统计
                     (new UserService($this->gameLog))->run();
                     break;
             }

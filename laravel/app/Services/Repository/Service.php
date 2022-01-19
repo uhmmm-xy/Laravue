@@ -2,6 +2,7 @@
 
 namespace Services\Repository;
 
+use Carbon\Carbon;
 use Services\Mongo\UserEventLog;
 
 class Service {
@@ -11,9 +12,13 @@ class Service {
 
     protected $action = [];
 
+    protected $date,$day;
+
     public function __construct(UserEventLog $log)
     {
         $this->log = $log;
+        $this->date = Carbon::parse($this->log->getDna()->get('date_time'));
+        $this->day = $this->date->format("Ymd");
         loadLibrary("common");
     }
 

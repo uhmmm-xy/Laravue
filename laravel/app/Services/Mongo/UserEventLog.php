@@ -32,6 +32,8 @@ class UserEventLog extends BaseModel
         'src_server_id',
         'server_id',
         'attribute',
+        'created_at',
+        'updated_at'
     ];
 
     public function getDna(){
@@ -43,7 +45,7 @@ class UserEventLog extends BaseModel
     }
 
     public function getRole(){
-        return RoleModel::where('role_id',$this->user_id)->first();
+        return RoleModel::where('role_id',$this->role_id)->first();
     }
 
 }

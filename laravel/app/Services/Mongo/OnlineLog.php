@@ -15,6 +15,8 @@ class OnlineLog extends BaseModel
         "total_num",
         "ios_num",
         "android_num",
+        "created_at",
+        "updated_at",
     ];
 
     /**

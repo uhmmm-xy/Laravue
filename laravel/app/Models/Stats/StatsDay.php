@@ -19,6 +19,8 @@ class StatsDay extends Model
         'pay_total',
         'new_pay_count',
         'new_pay_total',
+        'register_pay_count',
+        'register_pay_total'
     ];
 
     /**
@@ -38,13 +40,15 @@ class StatsDay extends Model
 
 
     const ATTRIBUTES = [
-        'date'           => '日期',
-        'register_count' => '注册数',
-        'active_count'   => '活跃数',
-        'pay_count'      => '充值人数',
-        'pay_total'      => '充值金额',
-        'new_pay_count'  => '新增充值人数',
-        'new_pay_total'  => '新增充值金额',
+        'date'                => '日期',
+        'register_count'      => '注册数',
+        'active_count'        => '活跃数',
+        'pay_count'           => '充值人数',
+        'pay_total'           => '充值金额',
+        'new_pay_count'       => '新增充值人数',
+        'new_pay_total'       => '新增充值金额',
+        'register_pay_count'  => '新增充值人数',
+        'register_pay_total'  => '新增充值金额',
     ];
 
     /**
@@ -54,6 +58,16 @@ class StatsDay extends Model
     static function getToDay()
     {
         $date = Carbon::today()->format('Ymd');
+        return self::firstOrCreate(compact('date'));
+    }
+
+    /**
+     * 获取某天数据，用于日志恢复
+     *
+     * @return static|\Illuminate\Database\Eloquent\Model
+     */
+    static function getDay($date)
+    {
         return self::firstOrCreate(compact('date'));
     }
 }

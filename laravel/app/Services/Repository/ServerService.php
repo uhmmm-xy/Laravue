@@ -12,8 +12,9 @@ class ServerService extends Service{
     ];
 
     protected function onLineLog(){
-        $attr = collect($this->log->attribute);
         $config = config("gameLog.".$this->log->type);
-        OnlineLog::create($attr->only($config)->toArray());
+        $onlineLog = OnlineLog::create($this->log->getDna()->only($config)->toArray());
+        $onlineLog->created_at = $this->date;
+        $onlineLog->save();
     }
 }

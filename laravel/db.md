@@ -489,7 +489,7 @@
 | **status**           | `int(11)`      | _not null_                             | _订单状态_   |
 | **currency**         | `int(11)`      | _not null_                             | _支付币种_   |
 | **pay_amount**       | `int(11)`      | _def:null_                             | _支付金额_   |
-| **exp**       | `json`      | _def:null_                             | _拓展字段_   |
+| **exp**              | `json`         | _def:null_                             | _拓展字段_   |
 | **created_at**       | `datetime`     | _not null_                             | _创建时间_   |
 | **updated_at**       | `datetime`     | _not null_                             | _修改时间_   |
 
